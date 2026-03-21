@@ -1,4 +1,4 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser, EmailAddress } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import Link from "next/link";
@@ -6,12 +6,17 @@ import { HomeIcon, MailIcon, SettingsIcon, ZapIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { UserButton } from "@clerk/nextjs";
+import { getOrCreateUser } from "@/db/queries";
 
 const MainLayout = async ({ children }: { children: ReactNode }) => {
   const { userId, has } = await auth();
   if (!userId) redirect("/sign-in");
 
   const clerkUser = await currentUser();
+  const email = clerkUser?.emailAddresses[0].emailAddress ?? '';
+  const name = clerkUser?.fullName ?? "";
+
+  const user = await getOrCreateUser(userId, email, name);
 
   const isPaidUser = has({ plan: "pro_plan" });
 
