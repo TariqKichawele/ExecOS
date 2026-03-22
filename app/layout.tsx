@@ -12,8 +12,8 @@ import "./globals.css";
 
 const monsterrat = Montserrat({
   subsets: ["latin"],
-  variable: "--font-montserrat"
-})
+  variable: "--font-montserrat",
+});
 
 export const metadata: Metadata = {
   title: "ExecOS",
@@ -33,9 +33,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ClerkProvider appearance={{ theme: shadcn }}>
           {children}
-        <footer className="w-full p-4 mt-auto text-center text-sm text-gray-500 dark:text-gray-400">
-          &copy; {new Date().getFullYear()} ExecOS
-        </footer>
+          <footer className="w-full p-4 mt-auto text-center text-sm text-gray-500 dark:text-gray-400">
+            &copy; {new Date().getFullYear()} ExecOS
+          </footer>
         </ClerkProvider>
       </body>
     </html>

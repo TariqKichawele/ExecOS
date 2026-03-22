@@ -1,6 +1,6 @@
 import { db } from "./index";
 import { and, eq } from "drizzle-orm";
-import { integrations, users } from "./schema";
+import { ActionLogEntry, agentRuns, integrations, users } from "./schema";
 import { GoogleProvider } from "@/lib/google";
 
 export async function getUserByClerkId(clerkId: string) {
@@ -20,7 +20,8 @@ export async function getOrCreateUser(clerkId: string, email: string, name?: str
         return existingUser;
     }
 
-    return db.insert(users).values({ clerkId, email, name: name ?? null }).returning()
+    const [newUser] = await db.insert(users).values({ clerkId, email, name: name ?? null }).returning();
+    return newUser;
 }
 
 export async function getIntegration(userId: string, provider: GoogleProvider) {
@@ -59,4 +60,41 @@ export async function upsertIntegration(data: {
             scope: data.scope,
         }).returning({id: integrations.id});
     }
+}
+
+export async function getUserIntegrations(userId: string) {
+    const results = await db.select().from(integrations).where(eq(integrations.userId, userId));
+
+    return results ?? [];
+}
+
+export async function createAgentRun(userId: string) {
+    const [result] = await db
+        .insert(agentRuns)
+        .values({ userId, status: "running" })
+        .returning();
+
+    return result ?? null;
+}
+
+export async function completeAgentRun(agentRunId: string, data: {
+    status: "success" | "failed";
+    summary: string;
+    actionsLog: ActionLogEntry[];
+    emailsProcessed: number;
+    tasksCreated: number;
+    draftsCreated: number;
+    errorMessage?: string;
+    durationMs: number;
+}) {
+    const [run] = await db
+        .update(agentRuns)
+        .set({
+            ...data, 
+            completedAt: new Date()
+        })
+        .where(eq(agentRuns.id, agentRunId))
+        .returning();
+
+    return run ?? null;
 }

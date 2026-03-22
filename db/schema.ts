@@ -98,6 +98,7 @@ export interface ActionLogEntry {
     tasksCreated?: number;
     draftCreated?: boolean;
     eventsCreated?: number;
+    error?: string;
 }
 
 export const agentRuns = pgTable("agent_runs", {

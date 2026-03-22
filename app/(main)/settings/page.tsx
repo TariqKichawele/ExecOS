@@ -2,23 +2,39 @@ import { CalendarIcon, MailIcon } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { auth, currentUser } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getOrCreateUser, getUserIntegrations } from '@/db/queries';
 
-const providers = [
-    {
-        key: "gmail",
-        name: "Gmail",
-        description: "Read and manage your emails",
-        icon: MailIcon
-    },
-    {
-        key: "google_calendar",
-        name: "Google Calendar",
-        description: "Read and manage your calendar events",
-        icon: CalendarIcon
-    }
-];
+const Settings = async () => {
+    const { userId: clerkId } = await auth();
+    if (!clerkId) redirect("/sign-in");
 
-const Settings = () => {
+    const clerkUser = await currentUser();
+    const email = clerkUser?.emailAddresses[0].emailAddress ?? "";
+    const name = clerkUser?.fullName ?? "";
+    const user = await getOrCreateUser(clerkId, email, name);
+
+    const userIntegrations = await getUserIntegrations(user.id)
+    const gmailIntegration = userIntegrations.find((integration) => integration.provider === "gmail")
+    const googleCalendarIntegration = userIntegrations.find((integration) => integration.provider === "google_calendar")
+
+    const providers = [
+        {
+            key: "gmail",
+            name: "Gmail",
+            description: "Read and manage your emails",
+            icon: MailIcon,
+            integration: gmailIntegration
+        },
+        {
+            key: "google_calendar",
+            name: "Google Calendar",
+            description: "Read and manage your calendar events",
+            icon: CalendarIcon,
+            integration: googleCalendarIntegration
+        }
+    ];
   return (
     <div className="page-wrapper">
         <div>
@@ -45,7 +61,7 @@ const Settings = () => {
                                 <p className='status-label'>{provider.description}</p>
                             </div>
                         </div>
-                        {false ? (
+                        {provider.integration ? (
                             <div className="integration-actions">
                                 <Badge variant={'default'} className='bg-primary'>Connected</Badge>
                             </div>
