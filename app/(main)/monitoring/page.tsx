@@ -54,7 +54,7 @@ const Monitoring = async () => {
       <div>
         <h1 className="page-title">Monitoring</h1>
         <p className="page-description">
-          Emails processed by your AI agent with Claude&aposs analysis.
+          Emails processed by your AI agent with Claude&apos;s analysis.
         </p>
       </div>
       <div className="stats-grid-4">

@@ -49,7 +49,7 @@ export default function Home() {
               The AI that actually does things
             </span>
           </p>
-          <h1>
+          <h1 className="hero-title">
             Your Autonomous Executive <br />
             Assistant
           </h1>
@@ -59,12 +59,16 @@ export default function Home() {
             your favorite chat app.
           </p>
           <div className="hero-buttons">
-            <Link href="/sign-up">
-              <Button size="lg" className="text-lg">
+            <Link href="/sign-up" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full text-base sm:w-auto sm:text-lg">
                 Start Free Trial
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="text-lg">
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full text-base sm:w-auto sm:text-lg"
+            >
               See How It Works
             </Button>
           </div>
@@ -111,7 +115,9 @@ export default function Home() {
 
       <section className="section-heading" id="pricing">
         <h2>Simple, Transparent Pricing</h2>
-        <PricingTable />
+        <div className="w-full min-w-0 overflow-x-auto [-webkit-overflow-scrolling:touch]">
+          <PricingTable />
+        </div>
       </section>
     </div>
   );

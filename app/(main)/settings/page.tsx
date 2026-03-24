@@ -1,7 +1,8 @@
 import { CalendarIcon, MailIcon } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { getOrCreateUser, getUserIntegrations } from '@/db/queries';
@@ -66,11 +67,15 @@ const Settings = async () => {
                                 <Badge variant={'default'} className='bg-primary'>Connected</Badge>
                             </div>
                         ) : (
-                            <Button>
-                                <a href={`/api/auth/google?provider=${provider.key}`}>
-                                    Connect
-                                </a>
-                            </Button>
+                            <a
+                                href={`/api/auth/google?provider=${provider.key}`}
+                                className={cn(
+                                    buttonVariants({ variant: 'default' }),
+                                    'inline-flex w-full justify-center sm:w-auto',
+                                )}
+                            >
+                                Connect
+                            </a>
                         )}
                     </div>
                 ))}
