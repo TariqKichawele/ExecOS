@@ -21,12 +21,23 @@ export function encrypt(plaintext: string): string {
 
     const tag = cipher.getAuthTag();
 
-    return `${iv.toString('hex')}:${encrypted}:${tag.toString('hex')}:${encrypted}`;
+    return `${iv.toString('hex')}:${encrypted}:${tag.toString('hex')}`;
 }
 
 export function decrypt(ciphertext: string): string {
     const key = getKey();
-    const [ivHex, tagHex, encrypted] = ciphertext.split(':');
+    const parts = ciphertext.split(':');
+    // Legacy bug: encrypt() once returned iv:enc:tag:enc (duplicate). Parse both shapes.
+    let ivHex: string;
+    let encryptedHex: string;
+    let tagHex: string;
+    if (parts.length === 4 && parts[1] === parts[3]) {
+        [ivHex, encryptedHex, tagHex] = [parts[0], parts[1], parts[2]];
+    } else if (parts.length === 3) {
+        [ivHex, encryptedHex, tagHex] = parts;
+    } else {
+        throw new Error('Invalid ciphertext format');
+    }
 
     const iv = Buffer.from(ivHex, 'hex');
     const tag = Buffer.from(tagHex, 'hex');
@@ -34,7 +45,7 @@ export function decrypt(ciphertext: string): string {
     const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
     decipher.setAuthTag(tag);
 
-    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    let decrypted = decipher.update(encryptedHex, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
 
     return decrypted;
