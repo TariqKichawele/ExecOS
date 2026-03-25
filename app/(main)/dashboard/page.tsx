@@ -61,6 +61,11 @@ const Dashboard = async () => {
     (completedCount / onboardingSteps.length) * 100,
   );
 
+  const isAgentReady =
+    gmailConnected && googleCalendarConnected && isPaidUser;
+
+  console.log(isAgentReady);
+
   const { emailsProcessed, draftsCreated, tasksCreated } = await getUnreadEmails(user.id);
   return (
     <div className="page-wrapper">
@@ -127,15 +132,22 @@ const Dashboard = async () => {
               <div className="card-content-stack">
                 <div className="status-row">
                   <span className="status-label">Status</span>
-                  <Badge variant="default" className="bg-primary">
-                    Ready
+                  <Badge
+                    variant={isAgentReady ? "default" : "secondary"}
+                    className={isAgentReady ? "bg-primary" : undefined}
+                  >
+                    {isAgentReady ? "Ready" : "Not ready"}
                   </Badge>
                 </div>
                 <div className="status-row">
                   <span className="status-label">Gmail</span>
-                  <span className="status-value">Connected</span>
+                  <span className="status-value">
+                    {gmailConnected ? "Connected" : "Disconnected"}
+                  </span>
                 </div>
-                <RunAgentButton />
+                <RunAgentButton
+                  disabled={!gmailConnected && !googleCalendarConnected}
+                />
               </div>
             </CardContent>
           </Card>
