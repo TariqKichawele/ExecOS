@@ -1,5 +1,12 @@
 import RunAgentButton from "@/components/agents/run-agent-button";
-import { getLatestAgentRun, getOrCreateUser, getUnreadEmails, getUserIntegrations } from "@/db/queries";
+import {
+  countFreeManualAgentRuns,
+  getLatestAgentRun,
+  getOrCreateUser,
+  getUnreadEmails,
+  getUserIntegrations,
+} from "@/db/queries";
+import { FREE_MANUAL_RUN_LIMIT } from "@/lib/agent-limits";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -35,6 +42,9 @@ const Dashboard = async () => {
 
   const { has } = await auth();
   const isPaidUser = has({ plan: "pro_plan" });
+  const freeManualRunsUsed = isPaidUser
+    ? 0
+    : await countFreeManualAgentRuns(user.id);
 
   const onboardingSteps = [
     {
@@ -146,7 +156,14 @@ const Dashboard = async () => {
                   </span>
                 </div>
                 <RunAgentButton
-                  disabled={!gmailConnected && !googleCalendarConnected}
+                  disabled={
+                    (!gmailConnected && !googleCalendarConnected) ||
+                    (!isPaidUser &&
+                      freeManualRunsUsed >= FREE_MANUAL_RUN_LIMIT)
+                  }
+                  isPaidUser={isPaidUser}
+                  freeManualRunsUsed={freeManualRunsUsed}
+                  freeManualRunLimit={FREE_MANUAL_RUN_LIMIT}
                 />
               </div>
             </CardContent>

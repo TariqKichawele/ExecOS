@@ -7,11 +7,11 @@ import {
   fetchUpcomingEvents,
 } from "./agents/calendar";
 import { anaylzeWithAI } from "./agents/process-email";
-import { ActionLogEntry } from "@/db/schema";
+import { ActionLogEntry, AgentRunSource } from "@/db/schema";
 
-export async function runAgent(userId: string) {
+export async function runAgent(userId: string, runSource: AgentRunSource) {
   const startTime = Date.now();
-  const agentRun = await createAgentRun(userId);
+  const agentRun = await createAgentRun(userId, runSource);
   try {
     //create agent run by user id
     // get gmail client
