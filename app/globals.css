@@ -50,38 +50,38 @@
 
 :root {
   --radius: 0.625rem;
-  /* Dark-first theme inspired by OpenClaw - red primary, teal secondary */
-  --background: oklch(0.1 0.005 280);
-  --foreground: #008080;
-  --card: oklch(0.15 0.005 280);
-  --card-foreground: oklch(0.9 0.005 280);
-  --popover: oklch(0.15 0.005 280);
-  --popover-foreground: oklch(0.9 0.005 280);
-  --primary: oklch(0.6 0.2 25);
-  --primary-foreground: oklch(0.95 0.005 0);
-  --secondary: #008080; /* teal */
-  --secondary-foreground: oklch(0.85 0.005 280);
-  --muted: oklch(0.18 0.005 280);
-  --muted-foreground: oklch(0.55 0.01 280);
-  --accent: oklch(0.18 0.005 280);
-  --accent-foreground: oklch(0.85 0.005 280);
+  /* Light theme — red primary, teal secondary */
+  --background: oklch(0.985 0.003 280);
+  --foreground: oklch(0.22 0.02 280);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.02 280);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.02 280);
+  --primary: oklch(0.55 0.19 25);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.42 0.09 175);
+  --secondary-foreground: oklch(0.99 0.01 175);
+  --muted: oklch(0.96 0.006 280);
+  --muted-foreground: oklch(0.45 0.02 280);
+  --accent: oklch(0.94 0.015 280);
+  --accent-foreground: oklch(0.22 0.02 280);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.6 0.2 25);
-  --chart-1: oklch(0.6 0.2 25);
-  --chart-2: oklch(0.55 0.08 170);
-  --chart-3: oklch(0.5 0.15 25);
-  --chart-4: oklch(0.48 0.06 170);
-  --chart-5: oklch(0.65 0.12 25);
-  --sidebar: oklch(0.12 0.005 280);
-  --sidebar-foreground: oklch(0.9 0.005 280);
-  --sidebar-primary: oklch(0.6 0.2 25);
-  --sidebar-primary-foreground: oklch(0.95 0.005 0);
-  --sidebar-accent: oklch(0.18 0.005 280);
-  --sidebar-accent-foreground: oklch(0.9 0.005 280);
-  --sidebar-border: oklch(1 0 0 / 8%);
-  --sidebar-ring: oklch(0.6 0.2 25);
+  --border: oklch(0 0 0 / 10%);
+  --input: oklch(0 0 0 / 12%);
+  --ring: oklch(0.55 0.19 25);
+  --chart-1: oklch(0.55 0.19 25);
+  --chart-2: oklch(0.5 0.09 175);
+  --chart-3: oklch(0.48 0.16 25);
+  --chart-4: oklch(0.45 0.07 175);
+  --chart-5: oklch(0.58 0.14 25);
+  --sidebar: oklch(0.97 0.006 280);
+  --sidebar-foreground: oklch(0.26 0.02 280);
+  --sidebar-primary: oklch(0.55 0.19 25);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.93 0.012 280);
+  --sidebar-accent-foreground: oklch(0.26 0.02 280);
+  --sidebar-border: oklch(0 0 0 / 8%);
+  --sidebar-ring: oklch(0.55 0.19 25);
 }
 
 .dark {
@@ -128,11 +128,11 @@
   }
 
   .hero-description {
-    @apply mx-auto mb-8 max-w-2xl px-1 text-base leading-relaxed text-white sm:text-lg md:text-xl lg:text-2xl xl:text-3xl;
+    @apply mx-auto mb-8 max-w-2xl px-1 text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl lg:text-2xl xl:text-3xl;
   }
 
   .page-description {
-    @apply mt-2 text-white;
+    @apply mt-2 text-muted-foreground;
   }
 
   .logo-container {
@@ -140,7 +140,11 @@
   }
 
   .logo-text {
-    @apply text-xl font-bold text-white;
+    @apply text-xl font-bold text-sidebar-foreground;
+  }
+
+  .landing-header .logo-text {
+    @apply text-card-foreground;
   }
 
   .sidebar-container {
@@ -185,7 +189,7 @@
   }
 
   .sidebar-nav-button {
-    @apply w-full justify-start gap-3 text-white;
+    @apply w-full justify-start gap-3 text-sidebar-foreground;
   }
 
   .sidebar-icon {
@@ -197,7 +201,7 @@
   }
 
   .upgrade-card {
-    @apply rounded-lg bg-primary/10 p-4 text-primary-foreground;
+    @apply rounded-lg bg-primary/10 p-4 text-foreground;
   }
 
   .upgrade-card-header {
@@ -264,7 +268,7 @@
   }
 
   .page-title {
-    @apply text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl;
+    @apply text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl;
   }
 
   .stats-grid-2 {
@@ -691,6 +695,6 @@ body::after {
   }
 
   h2 {
-    @apply mb-8 text-center text-2xl font-bold text-white sm:mb-12 sm:text-3xl;
+    @apply mb-8 text-center text-2xl font-bold text-foreground sm:mb-12 sm:text-3xl;
   }
 }

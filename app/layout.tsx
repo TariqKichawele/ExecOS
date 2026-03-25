@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  Show,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
 import { Montserrat } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const monsterrat = Montserrat({
@@ -28,15 +23,23 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${monsterrat.className} h-full antialiased`}
+      className={`${monsterrat.className} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
-        <ClerkProvider appearance={{ theme: shadcn }}>
-          {children}
-          <footer className="w-full p-4 mt-auto text-center text-sm text-gray-500 dark:text-gray-400">
-            &copy; {new Date().getFullYear()} ExecOS
-          </footer>
-        </ClerkProvider>
+      <body className="flex min-h-full flex-col bg-background text-foreground">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('exec-os-theme');if(t==='light'){document.documentElement.classList.remove('dark');}else{document.documentElement.classList.add('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`,
+          }}
+        />
+        <ThemeProvider>
+          <ClerkProvider appearance={{ theme: shadcn }}>
+            {children}
+            <footer className="mt-auto w-full p-4 text-center text-sm text-muted-foreground">
+              &copy; {new Date().getFullYear()} ExecOS
+            </footer>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

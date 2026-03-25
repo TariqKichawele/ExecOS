@@ -13,6 +13,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
@@ -23,20 +24,23 @@ export default function Home() {
             <Link href="/">
               <span className="logo-text">ExecOS</span>
             </Link>
-            <Show when="signed-in">
-              <div className="nav-actions">
-                <Link href="/dashboard">
-                  <Button variant="ghost">Dashboard</Button>
-                </Link>
-                <UserButton />
-              </div>
-            </Show>
-            <Show when="signed-out">
-              <div className="nav-actions">
-                <SignInButton />
-                <SignUpButton />
-              </div>
-            </Show>
+            <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4">
+              <ThemeToggle className="text-card-foreground" />
+              <Show when="signed-in">
+                <div className="nav-actions">
+                  <Link href="/dashboard">
+                    <Button variant="ghost">Dashboard</Button>
+                  </Link>
+                  <UserButton />
+                </div>
+              </Show>
+              <Show when="signed-out">
+                <div className="nav-actions">
+                  <SignInButton />
+                  <SignUpButton />
+                </div>
+              </Show>
+            </div>
           </div>
         </div>
       </header>
@@ -104,7 +108,7 @@ export default function Home() {
                 <CardTitle className="text-xl text-foreground">
                   {feature.title}
                 </CardTitle>
-                <CardDescription className="text-base leading-relaxed text-white">
+                <CardDescription className="text-base leading-relaxed text-muted-foreground">
                   {feature.description}
                 </CardDescription>
               </CardHeader>

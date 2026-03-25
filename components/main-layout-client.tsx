@@ -15,6 +15,7 @@ import { UserButton } from "@clerk/nextjs";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: HomeIcon },
@@ -38,6 +39,7 @@ function SidebarBody({
           <Link href="/" onClick={onNavigate}>
             <span className="logo-text">ExecOS</span>
           </Link>
+          <ThemeToggle className="text-sidebar-foreground" />
         </div>
       )}
       <nav className="sidebar-nav">
@@ -132,7 +134,7 @@ export function MainLayoutClient({
             type="button"
             variant="ghost"
             size="icon"
-            className="shrink-0 text-white"
+            className="shrink-0 text-sidebar-foreground"
             aria-expanded={mobileOpen}
             aria-controls="mobile-app-nav"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -146,11 +148,12 @@ export function MainLayoutClient({
           </Button>
           <Link
             href="/"
-            className="logo-text min-w-0 truncate"
+            className="logo-text min-w-0 flex-1 truncate"
             onClick={closeMobile}
           >
             ExecOS
           </Link>
+          <ThemeToggle className="text-sidebar-foreground" />
         </header>
 
         <main className="main-content">
@@ -176,7 +179,7 @@ export function MainLayoutClient({
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="shrink-0 text-white"
+                className="shrink-0 text-sidebar-foreground"
                 aria-expanded
                 aria-controls="mobile-app-nav"
                 aria-label="Close menu"
@@ -186,11 +189,12 @@ export function MainLayoutClient({
               </Button>
               <Link
                 href="/"
-                className="logo-text min-w-0 truncate"
+                className="logo-text min-w-0 flex-1 truncate"
                 onClick={closeMobile}
               >
                 ExecOS
               </Link>
+              <ThemeToggle className="text-sidebar-foreground" />
             </div>
             <div className="sidebar-inner flex min-h-0 flex-1 flex-col overflow-y-auto">
               <SidebarBody
