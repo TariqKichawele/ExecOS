@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
 import { Montserrat } from "next/font/google";
+import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -40,7 +41,15 @@ export default function RootLayout({
           <ClerkProvider appearance={{ theme: shadcn }}>
             {children}
             <footer className="mt-auto w-full p-4 text-center text-sm text-muted-foreground">
-              &copy; {new Date().getFullYear()} ExecOS
+              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+                <span>&copy; {new Date().getFullYear()} ExecOS</span>
+                <Link
+                  href="/privacy"
+                  className="font-medium text-foreground underline-offset-4 hover:text-primary hover:underline"
+                >
+                  Privacy Policy
+                </Link>
+              </div>
             </footer>
           </ClerkProvider>
         </ThemeProvider>

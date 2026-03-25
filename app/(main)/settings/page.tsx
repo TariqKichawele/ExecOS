@@ -11,6 +11,7 @@ import {
 import { getOrCreateUser, getUserIntegrations } from "@/db/queries";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { CalendarIcon, MailIcon } from "lucide-react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function SettingsPage() {
@@ -62,6 +63,18 @@ export default async function SettingsPage() {
           <CardDescription>
             Connect your accounts to enable AI assistance
           </CardDescription>
+          <p className="text-sm text-muted-foreground">
+            By connecting Gmail or Google Calendar, you authorize ExecOS to
+            access your Google data only as needed for the features you use, as
+            described in our{" "}
+            <Link
+              href="/privacy"
+              className="font-medium text-primary underline-offset-4 hover:underline"
+            >
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </CardHeader>
         <CardContent className="space-y-4">
           {providers.map((provider) => (
