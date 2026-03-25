@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AppLogo } from "@/components/app-logo";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
@@ -36,9 +37,10 @@ function SidebarBody({
     <>
       {!omitLogo && (
         <div className="logo-container">
-          <Link href="/" onClick={onNavigate}>
-            <span className="logo-text">ExecOS</span>
-          </Link>
+          <AppLogo
+            onClick={onNavigate}
+            imageClassName="size-8 sm:size-9 lg:size-10"
+          />
           <ThemeToggle className="text-sidebar-foreground" />
         </div>
       )}
@@ -146,13 +148,11 @@ export function MainLayoutClient({
               <MenuIcon className="h-5 w-5" />
             )}
           </Button>
-          <Link
-            href="/"
-            className="logo-text min-w-0 flex-1 truncate"
+          <AppLogo
             onClick={closeMobile}
-          >
-            ExecOS
-          </Link>
+            className="flex min-w-0 flex-1 items-center justify-center"
+            imageClassName="size-8"
+          />
           <ThemeToggle className="text-sidebar-foreground" />
         </header>
 
@@ -187,13 +187,11 @@ export function MainLayoutClient({
               >
                 <XIcon className="h-5 w-5" />
               </Button>
-              <Link
-                href="/"
-                className="logo-text min-w-0 flex-1 truncate"
+              <AppLogo
                 onClick={closeMobile}
-              >
-                ExecOS
-              </Link>
+                className="flex min-w-0 flex-1 items-center justify-center"
+                imageClassName="size-8"
+              />
               <ThemeToggle className="text-sidebar-foreground" />
             </div>
             <div className="sidebar-inner flex min-h-0 flex-1 flex-col overflow-y-auto">

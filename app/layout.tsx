@@ -13,6 +13,10 @@ const monsterrat = Montserrat({
 export const metadata: Metadata = {
   title: "ExecOS",
   description: "An Autonomous AI Agent",
+  icons: {
+    icon: "/execos.png",
+    apple: "/execos.png",
+  },
 };
 
 export default function RootLayout({

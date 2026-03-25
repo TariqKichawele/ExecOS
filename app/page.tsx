@@ -13,6 +13,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
+import { AppLogo } from "@/components/app-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
@@ -21,9 +22,7 @@ export default function Home() {
       <header className="landing-header">
         <div className="landing-header-inner">
           <div className="logo-container">
-            <Link href="/">
-              <span className="logo-text">ExecOS</span>
-            </Link>
+            <AppLogo imageClassName="size-10 sm:size-12" priority />
             <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4">
               <ThemeToggle className="text-card-foreground" />
               <Show when="signed-in">
