@@ -1,3 +1,4 @@
+import { DisconnectButton } from "@/components/settings/disconnect-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,14 +33,14 @@ export default async function SettingsPage() {
 
   const providers = [
     {
-      key: "gmail",
+      key: "gmail" as const,
       name: "Gmail",
       description: "Read and manage your emails.",
       icon: MailIcon,
       integration: gmailIntegration,
     },
     {
-      key: "google_calendar",
+      key: "google_calendar" as const,
       name: "Google Calendar",
       description: "View and manage your calendar events.",
       icon: CalendarIcon,
@@ -75,7 +76,7 @@ export default async function SettingsPage() {
               {provider.integration ? (
                 <div className="integration-actions">
                   <Badge className="bg-primary">Connected</Badge>
-                  {/* <DisconnectButton provider={provider.key} /> */}
+                  <DisconnectButton provider={provider.key} />
                 </div>
               ) : (
                 <Button>

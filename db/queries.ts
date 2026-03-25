@@ -87,6 +87,19 @@ export async function getUserIntegrations(userId: string) {
   return results ?? [];
 }
 
+export async function deleteUserIntegration(
+  userId: string,
+  provider: GoogleProvider,
+) {
+  const deleted = await db
+    .delete(integrations)
+    .where(
+      and(eq(integrations.userId, userId), eq(integrations.provider, provider)),
+    )
+    .returning({ id: integrations.id });
+  return deleted.length > 0;
+}
+
 export async function createAgentRun(userId: string) {
   const [result] = await db
     .insert(agentRuns)

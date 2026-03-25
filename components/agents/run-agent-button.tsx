@@ -1,13 +1,19 @@
 "use client";
 
 import { Loader2Icon } from 'lucide-react';
-import React, { useTransition } from 'react'
+import { useTransition } from 'react'
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 
-const RunAgentButton = () => {
+type RunAgentButtonProps = {
+  /** When true, both Gmail and Google Calendar are disconnected — button stays inactive */
+  disabled?: boolean;
+};
+
+const RunAgentButton = ({ disabled }: RunAgentButtonProps) => {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
+    const isDisabled = disabled || isPending;
 
     const handleRunAgent = async () => {
         startTransition(async () => {
@@ -23,8 +29,7 @@ const RunAgentButton = () => {
                 if (!response) {
                     console.error("Agent run failed", result.error);
                 }
-    
-                console.log(result);
+
                 router.refresh();
             } catch (error) {
                 console.error("Agent run error", error);
@@ -38,7 +43,7 @@ const RunAgentButton = () => {
         className={'w-full'}
         variant={'outline'}
         onClick={handleRunAgent}
-        disabled={isPending}
+        disabled={isDisabled}
     >
         {isPending ? (
             <>
