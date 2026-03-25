@@ -22,10 +22,18 @@ const RunAgentButton = ({
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const router = useRouter();
-  const isDisabled = disabled || isPending;
   const freeRemaining = Math.max(0, freeManualRunLimit - freeManualRunsUsed);
+  const hasManualRunsAvailable = isPaidUser || freeRemaining > 0;
+  const isDisabled =
+    disabled || isPending || !hasManualRunsAvailable;
 
   const handleRunAgent = async () => {
+    if (!isPaidUser && freeRemaining <= 0) {
+      setErrorMessage(
+        "Free trial limit reached. Upgrade to continue running the agent.",
+      );
+      return;
+    }
     setErrorMessage(null);
     startTransition(async () => {
       try {
