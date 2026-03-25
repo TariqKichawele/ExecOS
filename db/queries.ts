@@ -1,6 +1,6 @@
 import { db } from "./index";
-import { and, eq, desc } from "drizzle-orm";
-import { ActionLogEntry, agentRuns, integrations, users, tasks } from "./schema";
+import { ActionLogEntry, AgentRunSource, agentRuns, integrations, users, tasks } from "./schema";
+import { and, count, desc, eq } from "drizzle-orm";
 import { GoogleProvider } from "@/lib/google";
 
 export async function getUserByClerkId(clerkId: string) {
@@ -100,13 +100,23 @@ export async function deleteUserIntegration(
   return deleted.length > 0;
 }
 
-export async function createAgentRun(userId: string) {
+export async function createAgentRun(userId: string, runSource: AgentRunSource) {
   const [result] = await db
     .insert(agentRuns)
-    .values({ userId, status: "running" })
+    .values({ userId, runSource, status: "running" })
     .returning();
 
   return result ?? null;
+}
+
+export async function countFreeManualAgentRuns(userId: string) {
+  const [row] = await db
+    .select({ n: count() })
+    .from(agentRuns)
+    .where(
+      and(eq(agentRuns.userId, userId), eq(agentRuns.runSource, "manual_free")),
+    );
+  return Number(row?.n ?? 0);
 }
 
 export async function completeAgentRun(

@@ -40,6 +40,14 @@ export const agentRunStatusEnum = pgEnum("agent_run_status", [
     "failed"
 ]);
 
+export const agentRunSourceEnum = pgEnum("agent_run_source", [
+    "cron",
+    "manual_free",
+    "manual_pro"
+]);
+
+export type AgentRunSource = (typeof agentRunSourceEnum.enumValues)[number];
+
 export const users = pgTable("users", {
     id: uuid("id").defaultRandom().primaryKey(),
     clerkId: text("clerk_id").notNull().unique(),
@@ -104,6 +112,7 @@ export interface ActionLogEntry {
 export const agentRuns = pgTable("agent_runs", {
     id: uuid("id").defaultRandom().primaryKey(),
     userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    runSource: agentRunSourceEnum("run_source").notNull().default("cron"),
     status: agentRunStatusEnum("status").notNull().default("running"),
     summary: text("summary"),
     actionsLog: jsonb("actions_log").notNull().default([]).$type<ActionLogEntry[]>(),
